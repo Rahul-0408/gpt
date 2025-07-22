@@ -12,12 +12,7 @@ import { PostHogProvider } from '@/app/providers';
 import { MFAProvider } from '@/components/utility/mfa/use-mfa';
 import { ConvexClientProvider } from './ConvexClientProvider';
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap', // Better font loading behavior
-  variable: '--font-inter', // CSS variable for flexibility
-});
-
+const inter = Inter({ subsets: ['latin'] });
 const APP_NAME = 'PentestGPT';
 const APP_DEFAULT_TITLE = 'PentestGPT - AI Assistant for Penetration Testers';
 const APP_TITLE_TEMPLATE = '%s';
@@ -47,6 +42,7 @@ export const metadata: Metadata = {
     capable: true,
     statusBarStyle: 'black',
     title: APP_DEFAULT_TITLE,
+    // startUpImage: [],
   },
   formatDetection: {
     telephone: false,
@@ -88,10 +84,6 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: '#000000',
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
 };
 
 export default async function RootLayout({ children }: RootLayoutProps) {
@@ -110,25 +102,16 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning className="h-full">
       <head>
-        {/* Modern Permissions Policy */}
         <meta
-          httpEquiv="Permissions-Policy"
-          content="cross-origin-isolated=(), autoplay=()"
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
-        
-        {/* Preconnect to important origins */}
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        
-        {/* Favicon and PWA assets */}
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className={`${inter.variable} font-sans h-full bg-background text-foreground`}>
+      <body className={`${inter.className} h-full`}>
         <Providers attribute="class" defaultTheme="dark">
           <Toaster richColors position="top-center" duration={3000} />
-          <div className="flex h-dvh flex-col items-center overflow-x-auto">
+          <div className="bg-background text-foreground flex h-dvh flex-col items-center overflow-x-auto">
             {user ? (
               <GlobalState user={user}>
                 <PostHogProvider>
